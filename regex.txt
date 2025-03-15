@@ -1,0 +1,46 @@
+
+# \s*  可能有零个或多个空白字符（空格、制表符等
+# (?i)  使正则表达式不区分大小写
+
+# regex存储用于查找敏感信息的模式，如电话号码、身份证号码和密钥
+regex = {
+    'Email': r"(([a-zA-Z0-9][_|\.])*[a-zA-Z0-9]+@([a-zA-Z0-9][-|_|\.])*[a-zA-Z0-9]+\.((?!js|css|jpg|jpeg|png|ico)[a-zA-Z]{2,}))",
+    'Oss云存储桶': r"(([A|a]ccess[K|k]ey[I|i]d|[A|a]ccess[K|k]ey[S|s]ecret|[Aa]ccess-[Kk]ey)|[A|a]ccess[K|k]ey)\s*['\"]([0-9a-fA-F\-_=]{6,128})['\"]",
+    "aliyun_oss_url": r"[\\w.]\\.oss.aliyuncs.com",
+    'rsa_private_key' : r'-----BEGIN RSA PRIVATE KEY-----',
+    'ssh_dsa_private_key' : r'-----BEGIN DSA PRIVATE KEY-----',
+    'ssh_dc_private_key' : r'-----BEGIN EC PRIVATE KEY-----',
+    'pgp_private_block' : r'-----BEGIN PGP PRIVATE KEY BLOCK-----',
+    'SSH_privKey' : r"([-]+BEGIN [^\s]+ PRIVATE KEY[-]+[\s]*[^-]*[-]+END [^\s]+ PRIVATE KEY[-]+)",
+    'json_web_token' : r'ey[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$',
+    'github_access_token' : r'[a-zA-Z0-9_-]*:[a-zA-Z0-9_\-]+@github\.com*',
+    'slack_token' : r"\"api_token\":\"(xox[a-zA-Z]-[a-zA-Z0-9-]+)\"",
+    'Slack Token' : r'xox[baprs]-([0-9a-zA-Z]{10,48})?',
+    'Square Access Token' : r'sqOatp-[0-9A-Za-z\\-_]{22}',
+    'JSON Web Token' : r'(eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9._-]{10,}|eyJ[A-Za-z0-9_\/+-]{10,}\.[A-Za-z0-9._\/+-]{10,})',
+
+    # 'Basic Auth Credentials': r'(?<=:\/\/)[a-zA-Z0-9]+:[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+',
+    # 'Cloudinary Basic Auth': r'cloudinary:\/\/[0-9]{15}:[0-9A-Za-z]+@[a-z]+',
+    # "LinkedIn Secret Key": r"(?i)linkedin(.{0,20})?['\"][0-9a-z]{16}['\"]",
+    # 'Mailchamp API Key': r"Mailchamp API Key",
+    # 'Mailchamp API Key' : r'[0-9a-f]{32}-us[0-9]{1,2}',
+    # 'Mailgun API Key' : r'key-[0-9a-zA-Z]{32}',
+    # 'Picatic API Key' : r'sk_live_[0-9a-z]{32}',
+    # 'Slack Webhook' : r'https://hooks.slack.com/services/T[a-zA-Z0-9_]{8}/B[a-zA-Z0-9_]{8}/[a-zA-Z0-9_]{24}',
+    # 'Stripe API Key' : r'(?:r|s)k_live_[0-9a-zA-Z]{24}',
+    # 'Square Oauth Secret' : r'sq0csp-[ 0-9A-Za-z\\-_]{43}',
+    # "Secret Key OR Private API" : r"(access_key|Access-Key|access_token|SecretKey|SecretId|admin_pass|admin_user|algolia_admin_key|algolia_api_key|alias_pass|alicloud_access_key|amazon_secret_access_key|amazonaws|ansible_vault_password|aos_key|api_key|api_key_secret|api_key_sid|api_secret|api.googlemaps|AIza|apidocs|apikey|apiSecret|app_debug|app_id|app_key|app_log_level|app_secret|appkey|appkeysecret|application_key|appsecret|appspot|auth_token|authorizationToken|authsecret|aws_access|aws_access_key_id|aws_bucket|aws_key|aws_secret|aws_secret_key|aws_token|AWSSecretKey|b2_app_key|bashrc|password|bintray_apikey|bintray_gpg_password|bintray_key|bintraykey|bluemix_api_key|bluemix_pass|browserstack_access_key|bucket_password|bucketeer_aws_access_key_id|bucketeer_aws_secret_access_key|built_branch_deploy_key|bx_password|cache_driver|cache_s3_secret_key|cattle_access_key|cattle_secret_key|certificate_password|ci_deploy_password|client_secret|client_zpk_secret_key|clojars_password|cloud_api_key|cloud_watch_aws_access_key|cloudant_password|cloudflare_api_key|cloudflare_auth_key|cloudinary_api_secret|cloudinary_name|codecov_token|config|conn.login|connectionstring|consumer_key|consumer_secret|credentials|cypress_record_key|database_password|database_schema_test|datadog_api_key|datadog_app_key|db_password|db_server|db_username|dbpasswd|dbpassword|dbuser|deploy_password|digitalocean_ssh_key_body|digitalocean_ssh_key_ids|docker_hub_password|docker_key|docker_pass|docker_passwd|docker_password|dockerhub_password|dockerhubpassword|dot|files|dotfiles|droplet_travis_password|dynamoaccesskeyid|dynamosecretaccesskey|elastica_host|elastica_port|elasticsearch_password|encryption_key|encryption_password|env.heroku_api_key|env.sonatype_password|eureka.awssecretkey)[a-z0-9_.\-,]{0,25}[a-z0-9A-Z_ .\-,]{0,25}(=|>|:=|\||:|<=|=>|:).{0,5}['\"]([0-9a-zA-Z\-_=]{6,64})['\"]",
+    
+    "Secret Key OR Password OR ID" : r"(?i)\b((((api|aws|db|app|)secret(key|id|accesskey))|([a-z_]{3,32}[_-](key|apikey|secret|access|token|password|pass|passwd|id|sid|uid)))\s*(=|:)\s*['\"]([0-9a-zA-Z\-_=]{6,128})['\"])",
+    'Shiro' : r'(=deleteMe|rememberMe=)',
+    'Swagger UI' : r'((swagger-ui.html)|(\"swagger\":)|(Swagger UI)|(swaggerUi)|(swaggerVersion))',
+    "国内手机号码" : r"[^\w]((?:(?:\+|00)86)?1(?:(?:3[\d])|(?:4[5-79])|(?:5[0-35-9])|(?:6[5-7])|(?:7[0-8])|(?:8[\d])|(?:9[189]))\d{8})[^\w]",
+    "身份证号码" : r"[^0-9]((\d{8}(0\d|10|11|12)([0-2]\d|30|31)\d{3}$)|(\d{6}(18|19|20)\d{2}(0[1-9]|10|11|12)([0-2]\d|30|31)\d{3}(\d|X|x)))[^0-9]",
+    "IP地址" : r'^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$',
+    "Password" : r"(?i)\b(pass(word|wd|)|userPassword)\b\s*[:=]\s*['\"]([a-zA-Z0-9!@#$%^&*()_+\-=\[\]{}|;:.?\/]{6,64})['\"]",
+    "Key_Key_Key_key": r"(secret|appkey|ossKey|accessKey)\s*(=|:)\s*['\"]{0,1}([0-9a-zA-Z\-_=]{6,64})['\"]{0,1}",
+    "AuthorizationToken": r"(Authorization|Token)\s*(=|:)\s*['\"]([0-9a-zA-Z\-_=]{6,128})['\"]",
+    "加解密密钥_IV": r"(?i)(key|k|iv|i)\s*(=|:)\s*['\"][A-Za-z0-9+/]{8,999}(={0,2}|)['\"]"
+
+}
+
