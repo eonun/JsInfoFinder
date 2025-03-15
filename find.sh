@@ -1,5 +1,5 @@
 #!/bin/bash
 
-python js_finder.py $@
+python JsInfoFinder.py $@
 
 
