@@ -90,7 +90,7 @@ class JsInfoFinder:
         else:
             print("\033[32m [!] 未发现敏感信息!\033[0m")
 
-    def main(self):
+    def InfoFinder(self):
         """主函数，处理命令行参数并调用相应功能"""
         parser = optparse.OptionParser("python %prog -d /to/dir OR -f /path/to/file")
         parser.add_option('-d', '--directory', dest='directory', help='指定目录，读取目录及其子目录下的所有文件')
@@ -119,4 +119,4 @@ class JsInfoFinder:
 
 if __name__ == '__main__':
     finder = JsInfoFinder()
-    finder.main()
+    finder.InfoFinder()
