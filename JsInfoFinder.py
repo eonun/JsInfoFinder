@@ -30,7 +30,7 @@ class JsInfoFinder:
             "Password": r"(?i)\b(pass(word|wd|)|userPassword)\b\s*[:=]\s*['\"]([a-zA-Z0-9!@#$%^&*()_+\-=\[\]{}|;:.?\/]{6,64})['\"]",
             "Key_Key_Key_key": r"(secret|appkey|ossKey|accessKey)\s*(=|:)\s*['\"]{0,1}([0-9a-zA-Z\-_=]{6,64})['\"]{0,1}",
             "AuthorizationToken": r"(Authorization|Token)\s*(=|:)\s*['\"]([0-9a-zA-Z\-_=]{6,128})['\"]",
-            "加解密密钥_IV": r"(?i)(key|k|iv|i)\s*(=|:)\s*['\"][A-Za-z0-9+/]{8,999}(={0,2}|)['\"]"
+            "加解密密钥_IV": r"(?i)(key|k|iv|i)\s*(=|:)\s*['\"][A-Za-z0-9+/]{16,999}(={0,2}|)['\"]"
         }
         self.num = 0
         self.is_show = False
