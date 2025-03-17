@@ -38,41 +38,62 @@ class JsInfoFinder:
 
     def read_js(self, file_path):
         """读取文件内容"""
-        with open(file_path, 'r', encoding='utf-8') as file:
-            return file.read()
+        try:
+            with open(file_path, 'r', encoding='utf-8') as file:
+                return file.read()
+        except UnicodeDecodeError:
+            try:
+                with open(file_path, 'r', encoding='latin1') as file:
+                    return file.read()
+            except Exception as e:
+                print(f"\033[31m [-] 读取文件{file_path}时发生错误: {e} \033[0m")
+                return None
+        except FileNotFoundError:
+            print(f"\033[31m [-] 文件未找到: {file_path} \033[0m")
+            return None
+        except Exception as e:
+            print(f"\033[31m [-] 读取文件{file_path}时发生错误: {e} \033[0m")
+            return None
 
     def send_js(self, file_path):
         """处理单个JS文件"""
-        js_content = self.read_js(file_path)
-        self.search_js(js_content, file_path)
+        try:
+            js_content = self.read_js(file_path)
+            if js_content is not None:
+                self.search_js(js_content, file_path)
+        except Exception as e:
+            print(f"\033[31m [-] 处理文件时发生错误: {e} \033[0m")
 
     def search_js(self, js_script, url):
         """搜索JS内容中的敏感信息"""
-        str_table = []
-        str_len = len(js_script)
+        try:
+            str_table = []
+            str_len = len(js_script)
 
-        for key, pattern in self.regex.items():
-            match_start = 0
-            reg_list = []
-            while match_start < str_len:
-                reg_cont = js_script[match_start:str_len]
-                regex_result = re.search(pattern, reg_cont, re.IGNORECASE)
-                if regex_result:
-                    match_start += regex_result.end() + 1
-                    self.is_show = True
-                    if regex_result.group() not in reg_list:
-                        print("\033[32m [+] 发现\033[0m" + "\033[31m {} \033[0m".format(key) + "\033[32m 在 {} \033[0m".format(url))
-                        self.num += 1
-                        reg_list.append(regex_result.group())
+            for key, pattern in self.regex.items():
+                match_start = 0
+                reg_list = []
+                while match_start < str_len:
+                    reg_cont = js_script[match_start:str_len]
+                    regex_result = re.search(pattern, reg_cont, re.IGNORECASE)
+                    if regex_result:
+                        match_start += regex_result.end() + 1
+                        self.is_show = True
+                        if regex_result.group() not in reg_list:
+                            print("\033[32m [+] 发现\033[0m" + "\033[31m {} \033[0m".format(key) + "\033[32m 在 {} \033[0m".format(url))
+                            self.num += 1
+                            reg_list.append(regex_result.group())
 
-                        str_table.append(str(self.num))
-                        str_table.append(key)
-                        str_table.append("`" + regex_result.group().strip() + "`")
-                        str_table.append(url)
-                        self.table.add_row(str_table)
-                        str_table = []
-                else:
-                    break
+                            str_table.append(str(self.num))
+                            str_table.append(key)
+                            str_table.append("`" + regex_result.group().strip() + "`")
+                            str_table.append(url)
+                            self.table.add_row(str_table)
+                            str_table = []
+                    else:
+                        break
+        except Exception as e:
+            print(f"\033[31m [-] 搜索敏感信息时发生错误: {e} 在文件: {url} \033[0m")
 
     def print_table(self):
         """打印结果表格并保存到文件"""
